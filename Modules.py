@@ -1,8 +1,6 @@
 
 # coding: utf-8
 
-# In[ ]:
-
 
 import json
 from os.path import expanduser
@@ -12,9 +10,6 @@ import math
 import networkx as nx
 import heapq
 import matplotlib.pyplot as plt
-
-
-# In[ ]:
 
 
 def pubblicationDictionary(json):
@@ -31,7 +26,6 @@ def pubblicationDictionary(json):
     return(pubb_dict)
 
 
-# In[ ]:
 
 
 def Jaccard(a,b):
@@ -39,16 +33,10 @@ def Jaccard(a,b):
     return jaccard
 
 
-# In[ ]:
-
-
 #hop distance number of edjes between two nodes
 def hop_distance(G,start,end):
     p = nx.shortest_path(G,source=start, target=end)
     return (len(p)-1)
-
-
-# In[ ]:
 
 
 def graphConference(json, int_conference):
@@ -62,9 +50,6 @@ def graphConference(json, int_conference):
     return newG
 
 
-# In[ ]:
-
-
 def get_id_author(authorName):
     autID = {}
     for pubblication in database:
@@ -76,8 +61,6 @@ def get_id_author(authorName):
     return autID[authorName]
 
 
-# In[ ]:
-
 
 def author_dist(author, d):
     a = get_id_author(author)
@@ -85,8 +68,6 @@ def author_dist(author, d):
     subg = G.subgraph([k for k,v in nodelist.items()])
     return subg
 
-
-# In[ ]:
 
 
 def Dijkstra(G, start,end):
@@ -115,8 +96,6 @@ def Dijkstra(G, start,end):
             return (visited[end])    
 
 
-# In[ ]:
-
 
 def distance_to_aris(authorid):
     end=get_id_author("aris anagnostopoulos")
@@ -127,10 +106,7 @@ def distance_to_aris(authorid):
         print("There is no path between the nodes")
 
 
-# In[ ]:
 
-
-##too slow
 def Group_number(list_nodes):
     G_n={}
     
@@ -145,33 +121,15 @@ def Group_number(list_nodes):
     return(G_n)
 
 
-# In[ ]:
-
-
-#Load the data
+# MAIN 
 db = expanduser("reduced_dblp.json")
 database = json.loads(open(db, 'r').read())
-
-
-# In[ ]:
-
-
-# DAATABASE = List of PUBBLICATION
-# PUBBLICATION -> 6 DICT= authors, id_conference, id_conference_int, id_publication, id_publication_int, title
-# AUTHORS -> List of DICT (About 10500 in reduced json) -> {(author:Name , author_id:ID)}
-
-
-# In[ ]:
 
 
 G = nx.Graph() 
 dictAutor = pubblicationDictionary(database)
 for j in dictAutor.keys():
     G.add_node(j[1], id = j[1], author=j[0])
-
-
-# In[ ]:
-
 
 dict_publ = {}
 for elem in range(len(database)):
@@ -193,43 +151,21 @@ for keys in dictAutor.keys():
         except:
             dew[keys]=dictAutor[keys][i][0]
 
-
-# In[ ]:
-
-
-# ADD EDGES           
+          
 for k,v in dict_publ.items():
     for i in itertools.combinations(v,2):
         G.add_edge(i[0][1],i[1][1], pubblication=k[0], pubblication_int = k[1], weight=Jaccard(dew[i[0]],dew[i[1]]))
 
 
-# In[ ]:
-
-
-#2(a)
 h = graphConference(database, 3345)
 betweness = nx.betweenness_centrality(h)
 closeness = nx.closeness_centrality(h)
 degree = nx.degree(h)
 
 
-# In[ ]:
-
-
-#2(b)
 G_sub=author_dist("nicola barbieri",2)
 
-
-# In[ ]:
-
-
-#3(a)
 distance_to_aris(18262)
 
-
-# In[ ]:
-
-
-#3(b)
 Group_number([18262,256176,141492,256125])
 
