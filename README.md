@@ -21,10 +21,15 @@ All the plot and function for this part are explained in REPORT.pdf. </br>
 The second task that we had to complete was, given an author in input, create the subgraph induced by the nodes that have hop distance 
 at most equal to value *d*. </br>
 To do it, we used two function: </br>
-* **hop_distance(G,start,end)**: This function returns the length of networkx shortest path function from start node to end node passed by input.
+* **hop_distance(G,start,end)**: This function returns the length of the shortest path via networkx's shortest path function from start node to end node passed by input.
 * **author_dist(author, d)**: This function given in input an author name and hop distance *d*, and return the subgraph with hop distance 
 equal to d from author node. Thus we have plotted the subgraph.
 
 ## Generalized version of Erdos Number
 
 In this part we had write our version of Dijkstra's algorithm
+* **Dijkstra(G, start,end)**: This function returns the  minimum weighted distance from  a start node to  the end node passed by input, using dijkstra algorithm. We implement it using heapq to make it faster.
+
+* **distance_to_aris(authorid)**: This function returns the  minimum weighted distance from Aris to  the author id passed by input.
+
+* **Group_number(list_nodes)**: This function returns a dictionary with all the id of the authors as keys and as values the minimum weighted distance from the set of nodes given as input.
